@@ -1,0 +1,155 @@
+<!DOCTYPE html><html><head><title></title><meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" /><style type='text/css'>
+body {
+  font-family:sans-serif;
+  <!-- letter-spacing:-5px;-->
+  background:#eee;
+  background-size:100%;
+  color:#00979D;
+  margin:0;
+  padding:0;
+  font-weight:bold;
+}
+
+h1, h2, h3, p {
+  margin:0;
+}
+
+em, a {
+  font-style:normal;
+  color:#F47A20;
+}
+
+a {
+  background:#34d0e7;
+  color:#000;
+  text-decoration:none;
+}
+
+img {
+  width:100%;
+}
+
+div {
+  cursor:pointer;
+  cursor:hand;
+  position:absolute;
+  top:0px;
+  left:0px;
+  padding:75px;
+  line-height:97%;
+}
+
+div.center {
+  text-align:center;
+}
+
+div.imageText {
+  text-shadow:0px 0px 5px rgba(0,0,0,0.2);
+}
+
+notes {
+    display:none;
+}
+</style><script type='text/javascript'>
+window.onload = function() {
+    var s = document.getElementsByTagName('div'), ti;
+    if (!s) return;
+    var big = { current: 0, forward: fwd, reverse: rev, go: go, length: s.length };
+    window.big = big;
+    function resize() {
+        var w = window.innerWidth, h = window.innerHeight, e = s[big.current];
+        e.style.fontSize = h + 'px';
+        for (var i = h - 2; i >= 0 && (e.offsetWidth > w || e.offsetHeight > h); i -= 2) {
+            e.style.fontSize = i + 'px';
+        }
+        e.style.marginTop = ((h - e.offsetHeight) / 2) + 'px';
+    }
+    function go(n) {
+        big.current = n;
+        var e = s[n], t = parseInt(e.getAttribute('data-timeToNext') || 0, 10),
+            notes = e.getElementsByTagName('notes');
+        document.body.className = e.getAttribute('data-bodyclass') || '';
+        for (var k = 0; k < s.length; k++) s[k].style.display = 'none';
+        e.style.display = 'inline';
+        for (k = 0; typeof console === 'object' && k < notes.length; k++) console.log('%c%s: %s', 'padding:5px;font-family:serif;font-size:18px;line-height:150%;', n, notes[k].innerHTML.trim());
+        if (e.firstChild && e.firstChild.nodeName === 'IMG') {
+            document.body.style.backgroundImage = 'url("' + e.firstChild.src + '")';
+            e.firstChild.style.display = 'none';
+            if ('classList' in e) e.classList.add('imageText');
+        } else {
+            document.body.style.backgroundImage = '';
+            document.body.style.backgroundColor = e.style.backgroundColor;
+        }
+        if (ti !== undefined) window.clearInterval(ti);
+        if (t > 0) ti = window.setTimeout(fwd, (t * 1000));
+        resize();
+        if (window.location.hash !== n) window.location.hash = n;
+        document.title = e.textContent || e.innerText;
+    }
+    document.onclick = function() { go(++big.current % (s.length)); };
+    function fwd() { go(Math.min(s.length - 1, ++big.current)); }
+    function rev() { go(Math.max(0, --big.current)); }
+    document.onkeydown = function(e) {
+        if (e.which === 39 || e.which === 34 || e.which === 40) fwd();
+        if (e.which === 37 || e.which === 33 || e.which === 38) rev();
+    };
+    document.ontouchstart = function(e) {
+        var x0 = e.changedTouches[0].pageX;
+        document.ontouchend = function(e2) {
+            var x1 = e2.changedTouches[0].pageX;
+            if (x1 - x0 < 0) fwd();
+            if (x1 - x0 > 0) rev();
+        };
+    };
+    function parse_hash() {
+        return Math.max(Math.min(s.length - 1,
+            parseInt(window.location.hash.substring(1), 10)), 0);
+    }
+    if (window.location.hash) big.current = parse_hash() || big.current;
+    window.onhashchange = function() {
+        var c = parse_hash();
+        if (c !== big.current) go(c);
+    };
+    window.onresize = resize;
+    go(big.current);
+};
+</script></head><body>
+
+<div>Arte <em>Interactivo</em></div>
+
+<div>a qu&eacute; <em>tecnolog&iacute;as</em> podemos acceder<em><i>hoy</i></em>?</div> 
+<div><a href="http://arduino.cc"><img src='arduino.jpg'></a></div>
+<div><a href="http://processing.org"><img src='processing.jpg'></a></div>
+<div><a htef="http://www.html5rocks.com"><img src='html5.png'></a></div>
+<div>arduino</div>
+<div>Nos permite desarrollar sobre un concepto muy <em>sencillo...</em></div>
+<div>...y a la vez <em>muy potente</em>.</div>
+<div>sensores <em>+</em> procesamiento <em>+</em> actuadores</div>
+<div><em>sensores:</em>de movimiento, color, temperatura...</div> 
+<div><em>procesamiento:</em>qu&eacute; hacemos con lo que nos dicen los sensores?</div>
+<div><em>actuadores:</em>motores, luces, video...</div>
+<div>processing</div>
+<div>lenguaje de programaci&oacute;n especializado en <em>arte generativo</em></div>
+<div>arte <em>generativo</em>???</div>
+<div>un <em>pincel</em> convierte un movimiento f&iacute;sico en una mancha visible</div>
+<div>arte generativo === <em>super</em> pincel</div>
+<div>podemos convertir un <em>gesto</em> en un dise&ntilde;o <em>caleidosc&oacute;pico</em></div>
+<div>html5</div>
+<div>la <em>web</em></div>
+<div>espacios virtuales, interacci&oacute;n en tiempo real, internet de las cosas</div>
+<div>entonces, contamos con diversos tipos de <em>sensores...</em></div>
+<div>(si exploramos un poco encontramos de ondas cerebrales, electricidad generada por el cuerpo humano y estructura molecular!!!)</div>
+<div>podemos programar <em>superpinceles</em></div>
+<div>que expresen los datos sensados en forma visual</div>
+<div>y todo esto se puede realizar a distancias enormes a traves de la <em>web</em></div>
+<div>o sea...</div>
+<div><em>podemos!!!</em> crear una instalaci&oacute;n que reaccione...</div>
+<div>en tiempo real...</div>
+<div>ante informaci&oacute;n molecular...</div>
+<div>sensada al otro lado del mundo!!!</div>
+<div><img src="mindblow.gif"></div>
+<div>y lo mejor de todo...</div>
+<div>es que nos costar&iacute;a alrededor de <em>$3000</em></div>
+<div><em>interactuemos...</em></div>
+</body>
+</html>
